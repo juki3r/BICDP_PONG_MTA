@@ -81,11 +81,11 @@ class DashboardController extends Controller
 
             $residentQuery = Resident::where('municipality', $municipality);
             $incidentQuery = Incident::where('municipality', $municipality);
-            $blotterQuery = Blotter::where('municipality', $municipality);
-            $concernQuery = Concern::where('municipality', $municipality);
-            $certificateQuery = Certificate::where('municipality', $municipality);
-            $appUserQuery = MobileUser::where('municipality', $municipality);
-            $ordinanceQuery = Ordinance::where('municipality', $municipality);
+            // $blotterQuery = Blotter::where('municipality', $municipality);
+            // $concernQuery = Concern::where('municipality', $municipality);
+            // $certificateQuery = Certificate::where('municipality', $municipality);
+            // $appUserQuery = MobileUser::where('municipality', $municipality);
+            // $ordinanceQuery = Ordinance::where('municipality', $municipality);
 
             return response()->json([
 
@@ -95,13 +95,13 @@ class DashboardController extends Controller
                 "male" => (clone $residentQuery)->where('gender', 'Male')->count(),
                 "female" => (clone $residentQuery)->where('gender', 'Female')->count(),
 
-                "blotters" => $blotterQuery->count(),
-                "concerns" => $concernQuery->count(),
-                "certificates" => $certificateQuery->count(),
+                // "blotters" => $blotterQuery->count(),
+                // "concerns" => $concernQuery->count(),
+                // "certificates" => $certificateQuery->count(),
 
-                "app_users" => $appUserQuery->count(),
-                "ordinances" => $ordinanceQuery->count(),
-                "incidents" => $incidentQuery->count(),
+                // "app_users" => $appUserQuery->count(),
+                // "ordinances" => $ordinanceQuery->count(),
+                // "incidents" => $incidentQuery->count(),
 
                 "incident_trend" => $incidentQuery
                     ->selectRaw("DATE(created_at) as date, COUNT(*) as total")
