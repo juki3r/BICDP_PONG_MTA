@@ -103,11 +103,11 @@ class DashboardController extends Controller
                 // "ordinances" => $ordinanceQuery->count(),
                 // "incidents" => $incidentQuery->count(),
 
-                // "incident_trend" => $incidentQuery
-                //     ->selectRaw("DATE(created_at) as date, COUNT(*) as total")
-                //     ->groupBy('date')
-                //     ->orderBy('date')
-                //     ->get(),
+                "incident_trend" => $incidentQuery
+                    ->selectRaw("DATE(created_at) as date, COUNT(*) as total")
+                    ->groupBy('date')
+                    ->orderBy('date')
+                    ->get(),
 
                 // "live_incidents" => Incident::where('municipality', $municipality)
                 //     ->orderByDesc('created_at')
