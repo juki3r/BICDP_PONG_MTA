@@ -84,7 +84,7 @@ class DashboardController extends Controller
             // $blotterQuery = Blotter::where('municipality', $municipality);
             // $concernQuery = Concern::where('municipality', $municipality);
             // $certificateQuery = Certificate::where('municipality', $municipality);
-            // $appUserQuery = MobileUser::where('municipality', $municipality);
+            $appUserQuery = MobileUser::where('municipality', $municipality);
             // $ordinanceQuery = Ordinance::where('municipality', $municipality);
 
             return response()->json([
@@ -99,7 +99,7 @@ class DashboardController extends Controller
                 // "concerns" => $concernQuery->count(),
                 // "certificates" => $certificateQuery->count(),
 
-                // "app_users" => $appUserQuery->count(),
+                "app_users" => $appUserQuery->count(),
                 // "ordinances" => $ordinanceQuery->count(),
                 // "incidents" => $incidentQuery->count(),
 
