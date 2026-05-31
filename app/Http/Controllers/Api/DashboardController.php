@@ -66,6 +66,7 @@ class DashboardController extends Controller
                         'id',
                         'type',
                         'location',
+                        'description',
                         'status',
                         'incident_datetime',
                         'created_at'
