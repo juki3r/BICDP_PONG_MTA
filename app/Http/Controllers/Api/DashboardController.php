@@ -124,7 +124,10 @@ class DashboardController extends Controller
             ]);
         }
 
-        return response()->json(['message' => 'Unauthorized role'], 403);
+        return response()->json([
+            "role" => $user->role ?? null,
+            "error" => "Unauthorized role"
+        ], 403);
     }
 
 
