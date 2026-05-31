@@ -125,7 +125,7 @@ class DashboardController extends Controller
         }
 
         return response()->json([
-            "role" => $user->role ?? null,
+            // "role" => $user->role ?? null,
             "error" => "Unauthorized role"
         ], 403);
     }
