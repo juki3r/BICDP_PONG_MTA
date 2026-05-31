@@ -21,111 +21,20 @@ class DashboardController extends Controller
         if (!$user) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
-
-        // ================= BDRRMO =================
         if ($user->role === 'bdrrmo_admin') {
-
-            $barangay = $user->barangay;
-
-            abort_unless($barangay, 403, 'Unauthorized');
-
-            $residentQuery = Resident::where('barangay', $barangay);
-            $incidentQuery = Incident::where('barangay', $barangay);
-            $blotterQuery = Blotter::where('barangay', $barangay);
-            $concernQuery = Concern::where('barangay', $barangay);
-            $certificateQuery = Certificate::where('barangay', $barangay);
-            $appUserQuery = MobileUser::where('barangay', $barangay);
-            $ordinanceQuery = Ordinance::where('barangay', $barangay);
-
             return response()->json([
                 "role" => $user->role,
-
-                "residents" => $residentQuery->count(),
-                "voters" => (clone $residentQuery)->where('is_voter', 1)->count(),
-                "male" => (clone $residentQuery)->where('gender', 'Male')->count(),
-                "female" => (clone $residentQuery)->where('gender', 'Female')->count(),
-
-                "blotters" => $blotterQuery->count(),
-                "concerns" => $concernQuery->count(),
-                "certificates" => $certificateQuery->count(),
-
-                "app_users" => $appUserQuery->count(),
-                "ordinances" => $ordinanceQuery->count(),
-                "incidents" => $incidentQuery->count(),
-
-                "incident_trend" => $incidentQuery
-                    ->selectRaw("DATE(created_at) as date, COUNT(*) as total")
-                    ->groupBy('date')
-                    ->orderBy('date')
-                    ->get(),
-
-                "live_incidents" => Incident::where('barangay', $barangay)
-                    ->orderByDesc('created_at')
-                    ->limit(10)
-                    ->get([
-                        'id',
-                        'type',
-                        'location',
-                        'status',
-                        'incident_datetime',
-                        'created_at'
-                    ]),
             ]);
         }
 
-        // ================= MDRRMO =================
         if ($user->role === 'mdrrmo_admin') {
-
-            $municipality = $user->municipality;
-
-            abort_unless($municipality, 403, 'Unauthorized');
-
-            $residentQuery = Resident::where('city_municipality', $municipality);
-            $incidentQuery = Incident::where('municipality', $municipality);
-            $blotterQuery = Blotter::where('municipality', $municipality);
-            $concernQuery = Concern::where('municipality', $municipality);
-            $certificateQuery = Certificate::where('municipality', $municipality);
-            $appUserQuery = MobileUser::where('municipality', $municipality);
-            $ordinanceQuery = Ordinance::where('municipality', $municipality);
-
             return response()->json([
                 "role" => $user->role,
-
-                "residents" => $residentQuery->count(),
-                "voters" => (clone $residentQuery)->where('is_voter', 1)->count(),
-                "male" => (clone $residentQuery)->where('gender', 'Male')->count(),
-                "female" => (clone $residentQuery)->where('gender', 'Female')->count(),
-
-                "blotters" => $blotterQuery->count(),
-                "concerns" => $concernQuery->count(),
-                "certificates" => $certificateQuery->count(),
-
-                "app_users" => $appUserQuery->count(),
-                "ordinances" => $ordinanceQuery->count(),
-                "incidents" => $incidentQuery->count(),
-
-                "incident_trend" => $incidentQuery
-                    ->selectRaw("DATE(created_at) as date, COUNT(*) as total")
-                    ->groupBy('date')
-                    ->orderBy('date')
-                    ->get(),
-
-                "live_incidents" => Incident::where('municipality', $municipality)
-                    ->orderByDesc('created_at')
-                    ->limit(10)
-                    ->get([
-                        'id',
-                        'type',
-                        'location',
-                        'status',
-                        'incident_datetime',
-                        'created_at'
-                    ]),
             ]);
         }
-
-        return response()->json(['message' => 'Unauthorized role'], 403);
     }
+
+
 
     // public function index(Request $request)
     // {
