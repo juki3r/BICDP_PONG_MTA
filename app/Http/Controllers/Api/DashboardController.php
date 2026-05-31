@@ -79,7 +79,7 @@ class DashboardController extends Controller
 
             abort_unless($municipality, 403, 'Unauthorized');
 
-            $residentQuery = Resident::where('municipality', $municipality);
+            $residentQuery = Resident::where('city_municipality', $municipality);
             $incidentQuery = Incident::where('municipality', $municipality);
             // $blotterQuery = Blotter::where('municipality', $municipality);
             // $concernQuery = Concern::where('municipality', $municipality);
