@@ -125,6 +125,7 @@ class BlotterController extends Controller
 
             'complainant_id' => 'nullable|exists:residents,id',
             'complainant_name' => 'required|string',
+            'complainant_contact' => 'required|string',
 
             'respondent_id' => 'nullable|exists:residents,id',
             'respondent_name' => 'nullable|string',
