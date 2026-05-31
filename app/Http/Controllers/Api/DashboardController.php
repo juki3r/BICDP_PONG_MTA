@@ -81,12 +81,12 @@ class DashboardController extends Controller
             abort_unless($municipality, 403, 'Unauthorized');
 
             $residentQuery = Resident::where('city_municipality', $municipality);
-            $incidentQuery = Incident::where('city_municipality', $municipality);
-            $blotterQuery = Blotter::where('city_municipality', $municipality);
-            $concernQuery = Concern::where('city_municipality', $municipality);
-            $certificateQuery = Certificate::where('city_municipality', $municipality);
-            $appUserQuery = MobileUser::where('city_municipality', $municipality);
-            $ordinanceQuery = Ordinance::where('city_municipality', $municipality);
+            $incidentQuery = Incident::where('municipality', $municipality);
+            $blotterQuery = Blotter::where('municipality', $municipality);
+            $concernQuery = Concern::where('municipality', $municipality);
+            $certificateQuery = Certificate::where('municipality', $municipality);
+            $appUserQuery = MobileUser::where('municipality', $municipality);
+            $ordinanceQuery = Ordinance::where('municipality', $municipality);
 
             return response()->json([
                 "role" => $user->role,
@@ -110,7 +110,7 @@ class DashboardController extends Controller
                     ->orderBy('date')
                     ->get(),
 
-                "live_incidents" => Incident::where('city_municipality', $municipality)
+                "live_incidents" => Incident::where('municipality', $municipality)
                     ->orderByDesc('created_at')
                     ->limit(10)
                     ->get([
