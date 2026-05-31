@@ -95,7 +95,7 @@ class ResidentSeeder extends Seeder
             'Call Center Agent'
         ];
 
-        for ($i = 1; $i <= 1000; $i++) {
+        for ($i = 1; $i <= 33000; $i++) {
 
             $first = $firstNames[array_rand($firstNames)];
             $last = $lastNames[array_rand($lastNames)];
@@ -116,11 +116,11 @@ class ResidentSeeder extends Seeder
                 'civil_status' => ['Single', 'Married', 'Widowed'][rand(0, 2)],
                 'nationality' => 'Filipino',
                 'religion' => 'Catholic',
-                'ethnicity' => 'Cebuano',
+                'ethnicity' => 'Ilonggo',
 
                 'birth_date' => $birthDate->format('Y-m-d'),
                 'age' => $birthDate->age,
-                'place_of_birth' => 'Cebu City',
+                'place_of_birth' => 'Iloilo City',
                 'birth_certificate_no' => 'BC-' . rand(100000, 999999),
 
                 'region' => 'Region VI',
@@ -129,7 +129,7 @@ class ResidentSeeder extends Seeder
                 'barangay' => $barangays[array_rand($barangays)],
                 'purok_zone' => 'Purok ' . rand(1, 7),
                 'street_address' => 'Sitio ' . rand(1, 20),
-                'full_address_text' => 'Cebu City, Philippines',
+                'full_address_text' => 'Carles, Iloilo, Philippines',
 
                 'household_head' => (bool)rand(0, 1),
                 'relationship_to_head' => 'Member',
