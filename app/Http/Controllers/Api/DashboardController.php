@@ -75,7 +75,6 @@ class DashboardController extends Controller
 
         // ================= MDRRMO =================
         if ($user->role === 'mdrrmo_admin') {
-            $user = auth()->user();
             $municipality = $user->municipality;
 
             abort_unless($municipality, 403, 'Unauthorized');
@@ -91,36 +90,36 @@ class DashboardController extends Controller
             return response()->json([
                 "role" => $user->role,
 
-                "residents" => $residentQuery->count(),
-                "voters" => (clone $residentQuery)->where('is_voter', 1)->count(),
-                "male" => (clone $residentQuery)->where('gender', 'Male')->count(),
-                "female" => (clone $residentQuery)->where('gender', 'Female')->count(),
+                // "residents" => $residentQuery->count(),
+                // "voters" => (clone $residentQuery)->where('is_voter', 1)->count(),
+                // "male" => (clone $residentQuery)->where('gender', 'Male')->count(),
+                // "female" => (clone $residentQuery)->where('gender', 'Female')->count(),
 
-                "blotters" => $blotterQuery->count(),
-                "concerns" => $concernQuery->count(),
-                "certificates" => $certificateQuery->count(),
+                // "blotters" => $blotterQuery->count(),
+                // "concerns" => $concernQuery->count(),
+                // "certificates" => $certificateQuery->count(),
 
-                "app_users" => $appUserQuery->count(),
-                "ordinances" => $ordinanceQuery->count(),
-                "incidents" => $incidentQuery->count(),
+                // "app_users" => $appUserQuery->count(),
+                // "ordinances" => $ordinanceQuery->count(),
+                // "incidents" => $incidentQuery->count(),
 
-                "incident_trend" => $incidentQuery
-                    ->selectRaw("DATE(created_at) as date, COUNT(*) as total")
-                    ->groupBy('date')
-                    ->orderBy('date')
-                    ->get(),
+                // "incident_trend" => $incidentQuery
+                //     ->selectRaw("DATE(created_at) as date, COUNT(*) as total")
+                //     ->groupBy('date')
+                //     ->orderBy('date')
+                //     ->get(),
 
-                "live_incidents" => Incident::where('municipality', $municipality)
-                    ->orderByDesc('created_at')
-                    ->limit(10)
-                    ->get([
-                        'id',
-                        'type',
-                        'location',
-                        'status',
-                        'incident_datetime',
-                        'created_at'
-                    ]),
+                // "live_incidents" => Incident::where('municipality', $municipality)
+                //     ->orderByDesc('created_at')
+                //     ->limit(10)
+                //     ->get([
+                //         'id',
+                //         'type',
+                //         'location',
+                //         'status',
+                //         'incident_datetime',
+                //         'created_at'
+                //     ]),
             ]);
         }
 
