@@ -89,7 +89,7 @@ class DashboardController extends Controller
 
             return response()->json([
 
-
+                "role" => $user->role,
                 "residents" => $residentQuery->count(),
                 "voters" => (clone $residentQuery)->where('is_voter', 1)->count(),
                 "male" => (clone $residentQuery)->where('gender', 'Male')->count(),
@@ -120,7 +120,7 @@ class DashboardController extends Controller
                         'incident_datetime',
                         'created_at'
                     ]),
-                "role" => $user->role,
+
             ]);
         }
 
