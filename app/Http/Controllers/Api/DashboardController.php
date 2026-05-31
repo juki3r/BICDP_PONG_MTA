@@ -131,7 +131,7 @@ class DashboardController extends Controller
 
                 "app_users" => $appUserQuery->count(),
                 // "ordinances" => $ordinanceQuery->count(),
-                // "incidents" => $incidentQuery->count(),
+                "incidents" => $incidentQuery->count(),
 
                 "incident_trend" => $incidentQuery
                     ->selectRaw("DATE(created_at) as date, COUNT(*) as total")
