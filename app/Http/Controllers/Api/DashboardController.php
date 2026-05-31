@@ -75,7 +75,7 @@ class DashboardController extends Controller
 
         // ================= MDRRMO =================
         if ($user->role === 'mdrrmo_admin') {
-
+            $user = auth()->user();
             $municipality = $user->municipality;
 
             abort_unless($municipality, 403, 'Unauthorized');
