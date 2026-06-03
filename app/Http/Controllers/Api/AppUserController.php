@@ -649,7 +649,7 @@ class AppUserController extends Controller
     //===============================
     public function saveLocation(Request $request)
     {
-        $user = MobileUser::find($request->user_id);
+        $user = MobileUser::find($request->id);
 
         if (!$user) {
             return response()->json([
