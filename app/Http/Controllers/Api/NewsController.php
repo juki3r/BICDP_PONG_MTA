@@ -64,18 +64,43 @@ class NewsController extends Controller
         $user = auth()->user();
 
         if (!$user) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
         }
 
-        $news = News::where('barangay', $user->barangay)
+        $news = News::where('municipality', $user->municipality)
             ->where('status', 'published')
-            ->orderBy('published_at', 'desc')
+            ->where(function ($q) use ($user) {
+                $q->where('barangay', $user->barangay) // Barangay news
+                    ->orWhereNull('barangay');          // Municipal news
+            })
+            ->orderByDesc('priority')      // urgent > important > normal
+            ->orderByDesc('published_at')
             ->get();
 
         return response()->json([
             'news' => $news
         ]);
     }
+
+    // public function index_appuser(Request $request)
+    // {
+    //     $user = auth()->user();
+
+    //     if (!$user) {
+    //         return response()->json(['message' => 'Unauthorized'], 401);
+    //     }
+
+    //     $news = News::where('barangay', $user->barangay)
+    //         ->where('status', 'published')
+    //         ->orderBy('published_at', 'desc')
+    //         ->get();
+
+    //     return response()->json([
+    //         'news' => $news
+    //     ]);
+    // }
 
 
     // STORE
