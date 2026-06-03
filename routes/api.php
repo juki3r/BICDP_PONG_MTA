@@ -58,6 +58,9 @@ Route::middleware('auth:sanctum')->group(function () {
     //Logout
     Route::post('/appuser/logout', [AppUserController::class, 'logout']);
 
+    //Save location
+    Route::post('/appuser/save-location', [AppUserController::class, 'saveLocation']);
+
 
     //Officials
     Route::get('/appuser/officials', [OfficialController::class, 'index_appuser']);

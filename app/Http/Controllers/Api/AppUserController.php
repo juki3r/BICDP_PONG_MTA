@@ -643,4 +643,27 @@ class AppUserController extends Controller
             ], 500);
         }
     }
+
+    //===============================
+    // SAVE LOCATION
+    //===============================
+    public function saveLocation(Request $request)
+    {
+        $user = MobileUser::find($request->user_id);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        $user->update([
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+        ]);
+
+        return response()->json([
+            'message' => 'Location saved'
+        ]);
+    }
 }

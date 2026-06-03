@@ -33,7 +33,9 @@ class MobileUser extends Model
         'otp_sent_at',
         'role',
         'barangay',
-        'is_logged_in'
+        'is_logged_in',
+        'latitude',
+        'longitude',
     ];
 
     protected $hidden = [
