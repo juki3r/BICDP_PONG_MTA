@@ -123,12 +123,12 @@ class ResidentSeeder extends Seeder
             'Call Center Agent'
         ];
 
-        for ($i = 1; $i <= 33000; $i++) {
+        for ($i = 1; $i <= 23000; $i++) {
 
             $first = $firstNames[array_rand($firstNames)];
             $last = $lastNames[array_rand($lastNames)];
 
-            $birthDate = Carbon::now()->subYears(rand(18, 70))->subDays(rand(1, 3650));
+            $birthDate = Carbon::now()->subYears(rand(1, 80))->subDays(rand(1, 3650));
 
             DB::table('residents')->insert([
                 'resident_code' => 'RCODE-2026-' . str_pad($i, 5, '0', STR_PAD_LEFT),
@@ -157,7 +157,7 @@ class ResidentSeeder extends Seeder
                 'barangay' => $barangays[array_rand($barangays)],
                 'purok_zone' => 'Purok ' . rand(1, 7),
                 'street_address' => 'Sitio ' . rand(1, 20),
-                'full_address_text' => 'Carles, Iloilo, Philippines',
+                'full_address_text' => 'Balasan, Iloilo, Philippines',
 
                 'household_head' => (bool)rand(0, 1),
                 'relationship_to_head' => 'Member',
