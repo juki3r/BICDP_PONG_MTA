@@ -26,8 +26,7 @@ return new class extends Migration
 
             $table->enum('status', ['draft', 'published', 'archived'])->default('published');
             $table->enum('priority', ['normal', 'important', 'urgent'])
-                ->default('normal')
-                ->after('status');
+                ->default('normal');
 
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
 
