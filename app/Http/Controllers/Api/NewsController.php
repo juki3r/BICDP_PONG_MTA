@@ -258,10 +258,30 @@ class NewsController extends Controller
         return News::findOrFail($id);
     }
 
-    // UPDATE
     public function update(Request $request, $id)
     {
+        $user = auth()->user();
+
         $news = News::findOrFail($id);
+
+        // Authorization
+        if (
+            $user->role === 'bdrrmo_admin' &&
+            $news->user_id !== $user->id
+        ) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 403);
+        }
+
+        if (
+            $user->role === 'mdrrmo_admin' &&
+            $news->municipality !== $user->municipality
+        ) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 403);
+        }
 
         $validated = $request->validate([
             'title' => 'sometimes|string|max:255',
@@ -272,12 +292,9 @@ class NewsController extends Controller
             'image' => 'nullable|image|max:20480',
         ]);
 
-        // =====================
-        // IMAGE UPDATE (SAFE)
-        // =====================
+        // Image update
         if ($request->hasFile('image')) {
 
-            // delete old image
             if ($news->image && file_exists(public_path($news->image))) {
                 unlink(public_path($news->image));
             }
@@ -297,10 +314,11 @@ class NewsController extends Controller
             $validated['image'] = 'uploads/news/' . $filename;
         }
 
-        // =====================
-        // PUBLISH LOGIC
-        // =====================
-        if (isset($validated['status']) && $validated['status'] === 'published') {
+        if (
+            isset($validated['status']) &&
+            $validated['status'] === 'published' &&
+            !$news->published_at
+        ) {
             $validated['published_at'] = now();
         }
 
@@ -308,9 +326,63 @@ class NewsController extends Controller
 
         return response()->json([
             'message' => 'News updated successfully',
-            'data' => $news
+            'data' => $news->fresh()
         ]);
     }
+
+    // UPDATE
+    // public function update(Request $request, $id)
+    // {
+    //     $news = News::findOrFail($id);
+
+    //     $validated = $request->validate([
+    //         'title' => 'sometimes|string|max:255',
+    //         'content' => 'sometimes|string',
+    //         'category' => 'nullable|string',
+    //         'status' => 'nullable|in:draft,published',
+    //         'priority' => 'required|in:normal,important,urgent',
+    //         'image' => 'nullable|image|max:20480',
+    //     ]);
+
+    //     // =====================
+    //     // IMAGE UPDATE (SAFE)
+    //     // =====================
+    //     if ($request->hasFile('image')) {
+
+    //         // delete old image
+    //         if ($news->image && file_exists(public_path($news->image))) {
+    //             unlink(public_path($news->image));
+    //         }
+
+    //         $file = $request->file('image');
+
+    //         $destination = public_path('uploads/news');
+
+    //         if (!file_exists($destination)) {
+    //             mkdir($destination, 0777, true);
+    //         }
+
+    //         $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+    //         $file->move($destination, $filename);
+
+    //         $validated['image'] = 'uploads/news/' . $filename;
+    //     }
+
+    //     // =====================
+    //     // PUBLISH LOGIC
+    //     // =====================
+    //     if (isset($validated['status']) && $validated['status'] === 'published') {
+    //         $validated['published_at'] = now();
+    //     }
+
+    //     $news->update($validated);
+
+    //     return response()->json([
+    //         'message' => 'News updated successfully',
+    //         'data' => $news
+    //     ]);
+    // }
 
     // DELETE
     public function destroy($id)
