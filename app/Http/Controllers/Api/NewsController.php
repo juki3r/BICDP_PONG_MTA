@@ -59,6 +59,8 @@ class NewsController extends Controller
         );
     }
 
+
+    // GET ALL for app users (filtered by municipality and barangay, only published news)
     public function index_appuser(Request $request)
     {
         $user = auth()->user();
