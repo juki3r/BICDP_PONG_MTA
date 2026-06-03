@@ -29,6 +29,7 @@ class SendAdminNotificationJob implements ShouldQueue
         match ($this->type) {
             'resident' => $this->sendToResidents(),
             'mdrrmo' => $this->sendToMDRRMO(),
+            'allresidents' => $this->sendToAllResidents(),
             default => $this->sendToAdmins(),
         };
     }
@@ -116,6 +117,40 @@ class SendAdminNotificationJob implements ShouldQueue
             ->when(
                 $this->barangay,
                 fn($q) => $q->where('barangay', $this->barangay)
+            )
+            ->get();
+
+        foreach ($residents as $resident) {
+
+            if (!$resident->fcm_token) continue;
+
+            $firebase->sendNotification(
+                $resident->fcm_token,
+                $this->data['title'],
+                $this->data['body'],
+                [
+                    "url" => $this->data['url'] ?? "/",
+                    "type" => $this->type,
+                    "request_id" => (string) $this->data['request_id'],
+                ]
+            );
+
+            $this->sendSms($resident);
+        }
+    }
+
+
+    /// =========================
+    // ALL RESIDENTS NOTIFICATION (for municipal-wide announcements)
+    // =========================
+    private function sendToAllResidents()
+    {
+        $firebase = new FirebaseService();
+
+        $residents = MobileUser::where('role', 'resident')
+            ->when(
+                $this->municipality,
+                fn($q) => $q->where('municipality', $this->municipality)
             )
             ->get();
 

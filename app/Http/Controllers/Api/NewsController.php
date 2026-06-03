@@ -88,10 +88,17 @@ class NewsController extends Controller
         // =====================
         // DEFAULT VALUES
         // =====================
-        $validated['user_id'] = auth()->id();
-        $validated['barangay'] = $user->barangay;
+        $validated['user_id'] = $user->id;
         $validated['status'] = $validated['status'] ?? 'draft';
         $validated['priority'] = $request->priority;
+
+        if ($user->role === 'bdrrmo_admin') {
+            $validated['barangay'] = $user->barangay;
+            $validated['municipality'] = $user->municipality;
+        } elseif ($user->role === 'mdrrmo_admin') {
+            $validated['barangay'] = null; // Municipal-wide news
+            $validated['municipality'] = $user->municipality;
+        }
 
         $validated['published_at'] =
             $validated['status'] === 'published' ? now() : null;
@@ -103,17 +110,17 @@ class NewsController extends Controller
         // =========================
         // NOTIFICATION (ASYNC JOB)
         // =========================
-        SendAdminNotificationJob::dispatch(
-            'resident',
-            [
-                'title' => "Barangay {$user->barangay}",
-                'body' => "Barangay {$user->barangay} posted latest news!",
-                'sms' => "[AlertoPH ALERT]\n Barangay {$user->barangay} posted news update!\n",
-                'request_id' => $user->id,
-                'url' => '/certificates'
-            ],
-            $user->barangay
-        );
+        // SendAdminNotificationJob::dispatch(
+        //     'resident',
+        //     [
+        //         'title' => "Barangay {$user->barangay}",
+        //         'body' => "Barangay {$user->barangay} posted latest news!",
+        //         'sms' => "[AlertoPH ALERT]\n Barangay {$user->barangay} posted news update!\n",
+        //         'request_id' => $user->id,
+        //         'url' => '/certificates'
+        //     ],
+        //     $user->barangay
+        // );
 
         // $facebook = new FacebookService();
 
@@ -124,6 +131,34 @@ class NewsController extends Controller
         //     $user->fb_page_token,
         //     $message
         // );
+
+        if ($user->role === 'mdrrmo_admin') {
+
+            SendAdminNotificationJob::dispatch(
+                'allresidents',
+                [
+                    'title' => "MDRRMO {$user->municipality}",
+                    'body' => "New municipal advisory has been posted.",
+                    'sms' => "[AlertoPH ALERT]\nMunicipal advisory issued.\n",
+                    'request_id' => $user->id,
+                    'url' => '/news'
+                ],
+                $user->municipality
+            );
+        } else if ($user->role === 'bdrrmo_admin') {
+
+            SendAdminNotificationJob::dispatch(
+                'resident',
+                [
+                    'title' => "Barangay {$user->barangay}",
+                    'body' => "Barangay {$user->barangay} posted latest news!",
+                    'sms' => "[AlertoPH ALERT]\nBarangay {$user->barangay} posted news update!\n",
+                    'request_id' => $user->id,
+                    'url' => '/news'
+                ],
+                $user->barangay
+            );
+        }
 
         //====================================================================================
 
