@@ -21,6 +21,7 @@ class Incident extends Model
         'action_taken',
         'alert_mdrrmo',
         'municipality',
-        'province'
+        'province',
+        'gps_location'
     ];
 }

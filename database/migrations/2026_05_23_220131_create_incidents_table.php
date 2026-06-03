@@ -44,6 +44,7 @@ return new class extends Migration
             $table->string('municipality')->nullable();
             $table->string('province')->nullable();
             $table->text('action_taken')->nullable();
+            $table->string('gps_location')->nullable();
             $table->timestamps();
         });
     }
