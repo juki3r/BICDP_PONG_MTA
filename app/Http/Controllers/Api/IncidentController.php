@@ -294,6 +294,7 @@ class IncidentController extends Controller
 
         $incident->update([
             'status' => $request->status,
+            'alert_mdrrmo' => true, // Reset alert if received, otherwise keep current value
         ]);
 
         //We will notify the resident submits the alert incident
