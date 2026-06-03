@@ -60,6 +60,7 @@ class DashboardController extends Controller
                     ->get(),
 
                 "live_incidents" => Incident::where('barangay', $barangay)
+                    ->whereNotIn('status', ['resolved', 'declined'])
                     ->orderByDesc('created_at')
                     ->limit(10)
                     ->get([
@@ -142,6 +143,7 @@ class DashboardController extends Controller
                     ->get(),
 
                 "live_incidents" => Incident::where('municipality', $municipality)
+                    ->whereNotIn('status', ['resolved', 'declined'])
                     ->orderByDesc('created_at')
                     ->limit(10)
                     ->get([
