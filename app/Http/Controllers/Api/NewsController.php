@@ -77,7 +77,6 @@ class NewsController extends Controller
                 $q->where('barangay', $user->barangay) // Barangay news
                     ->orWhereNull('barangay');          // Municipal news
             })
-            ->orderByDesc('priority')      // urgent > important > normal
             ->orderByDesc('published_at')
             ->get();
 
