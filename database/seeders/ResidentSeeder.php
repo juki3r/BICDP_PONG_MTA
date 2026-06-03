@@ -11,68 +11,68 @@ class ResidentSeeder extends Seeder
     public function run(): void
     {
         //Carles, Iloilo has 33 barangays as of 2024
-        // $barangays = [
-        //     'Abong',
-        //     'Alipata',
-        //     'Asluman',
-        //     'Bancal',
-        //     'Barangcalan',
-        //     'Barosbos',
-        //     'Binuluangan',
-        //     'Bito-on',
-        //     'Bolo',
-        //     'Buaya',
-        //     'Buenavista',
-        //     'Cabilao Grande',
-        //     'Cabilao Pequeño',
-        //     'Cabuguana',
-        //     'Cawayan',
-        //     'Dayhagan',
-        //     'Gabi',
-        //     'Granada',
-        //     'Guinticgan',
-        //     'Isla De Cana',
-        //     'Lantangan',
-        //     'Manlot',
-        //     'Nalumsan',
-        //     'Pantalan',
-        //     'Poblacion',
-        //     'Punta',
-        //     'Punta Batuanan',
-        //     'San Fernando',
-        //     'Tabugon',
-        //     'Talingting',
-        //     'Tarong',
-        //     'Tinigban',
-        //     'Tupaz'
-        // ];
+        $barangays = [
+            'Abong',
+            'Alipata',
+            'Asluman',
+            'Bancal',
+            'Barangcalan',
+            'Barosbos',
+            'Binuluangan',
+            'Bito-on',
+            'Bolo',
+            'Buaya',
+            'Buenavista',
+            'Cabilao Grande',
+            'Cabilao Pequeño',
+            'Cabuguana',
+            'Cawayan',
+            'Dayhagan',
+            'Gabi',
+            'Granada',
+            'Guinticgan',
+            'Isla De Cana',
+            'Lantangan',
+            'Manlot',
+            'Nalumsan',
+            'Pantalan',
+            'Poblacion',
+            'Punta',
+            'Punta Batuanan',
+            'San Fernando',
+            'Tabugon',
+            'Talingting',
+            'Tarong',
+            'Tinigban',
+            'Tupaz'
+        ];
 
         //Balasan
-        $barangays = [
-            'Aranjuez',
-            'Bacolod',
-            'Balanti-an',
-            'Batuan',
-            'Cabalic',
-            'Camambugan',
-            'Dolores',
-            'Gimamanay',
-            'Ipil',
-            'Kinalkalan',
-            'Lawis',
-            'Malapoc',
-            'Mamhut Norte',
-            'Mamhut Sur',
-            'Maya',
-            'Pani-an',
-            'Poblacion Norte',
-            'Poblacion Sur',
-            'Quiasan',
-            'Salong',
-            'Salvacion',
-            'Tingui-an',
-            'Zaragosa'
-        ];
+        // $barangays = [
+        //     'Aranjuez',
+        //     'Bacolod',
+        //     'Balanti-an',
+        //     'Batuan',
+        //     'Cabalic',
+        //     'Camambugan',
+        //     'Dolores',
+        //     'Gimamanay',
+        //     'Ipil',
+        //     'Kinalkalan',
+        //     'Lawis',
+        //     'Malapoc',
+        //     'Mamhut Norte',
+        //     'Mamhut Sur',
+        //     'Maya',
+        //     'Pani-an',
+        //     'Poblacion Norte',
+        //     'Poblacion Sur',
+        //     'Quiasan',
+        //     'Salong',
+        //     'Salvacion',
+        //     'Tingui-an',
+        //     'Zaragosa'
+        // ];
 
         $firstNames = [
             'Juan',
@@ -123,7 +123,7 @@ class ResidentSeeder extends Seeder
             'Call Center Agent'
         ];
 
-        for ($i = 1; $i <= 23000; $i++) {
+        for ($i = 1; $i <= 33000; $i++) {
 
             $first = $firstNames[array_rand($firstNames)];
             $last = $lastNames[array_rand($lastNames)];
@@ -131,7 +131,7 @@ class ResidentSeeder extends Seeder
             $birthDate = Carbon::now()->subYears(rand(1, 80))->subDays(rand(1, 3650));
 
             DB::table('residents')->insert([
-                'resident_code' => 'RBCODE-2026-' . str_pad($i, 5, '0', STR_PAD_LEFT),
+                'resident_code' => 'RCODE-2026-' . str_pad($i, 5, '0', STR_PAD_LEFT),
                 'household_number' => 'HH-' . rand(1000, 1050),
                 'family_number' => 'FAM-' . rand(500, 550),
 
@@ -157,7 +157,7 @@ class ResidentSeeder extends Seeder
                 'barangay' => $barangays[array_rand($barangays)],
                 'purok_zone' => 'Purok ' . rand(1, 7),
                 'street_address' => 'Sitio ' . rand(1, 20),
-                'full_address_text' => 'Balasan, Iloilo, Philippines',
+                'full_address_text' => 'Carles, Iloilo, Philippines',
 
                 'household_head' => (bool)rand(0, 1),
                 'relationship_to_head' => 'Member',
