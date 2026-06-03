@@ -48,7 +48,7 @@ class AppUserController extends Controller
 
         $mobileuser = MobileUser::create([
             'user_id' => $barangay_belongs,
-            'full_name' => $request->full_name,
+            'full_name' => ucwords(strtolower($request->full_name)),
             'province' => $request->province,
             'municipality' => $request->municipality,
             'barangay' => ucwords(strtolower($request->barangay)),
@@ -465,21 +465,6 @@ class AppUserController extends Controller
 
         return response()->json(['message' => 'Logged out']);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
