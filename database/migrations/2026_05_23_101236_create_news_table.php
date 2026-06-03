@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('news', function (Blueprint $table) {
             $table->id();
 
-            $table->string('barangay');
+            $table->string('barangay')->nullable();
+            $table->string('municipality')->nullable();
             $table->string('title');
             $table->longText('content');
 
@@ -24,6 +25,9 @@ return new class extends Migration
             $table->string('image')->nullable();
 
             $table->enum('status', ['draft', 'published', 'archived'])->default('published');
+            $table->enum('priority', ['normal', 'important', 'urgent'])
+                ->default('normal')
+                ->after('status');
 
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
 

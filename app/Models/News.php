@@ -8,6 +8,7 @@ class News extends Model
 {
     protected $fillable = [
         'barangay',
+        'municipality',
         'title',
         'content',
         'category',
