@@ -16,6 +16,42 @@ class IncidentController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function index(Request $request)
+    // {
+    //     $user = auth()->user();
+
+    //     if (!$user) {
+    //         return response()->json(['message' => 'Unauthorized'], 401);
+    //     }
+
+    //     $query = Incident::query();
+
+    //     // Scope by role
+    //     if ($user->role === "bdrrmo_admin") {
+    //         $query->where('barangay', $user->barangay);
+    //     } else {
+    //         $query->where('municipality', $user->municipality);
+    //     }
+
+    //     // Search filter (shared logic)
+    //     if ($request->filled('search')) {
+    //         $search = $request->search;
+
+    //         $query->where(function ($q) use ($search) {
+    //             $q->where('incident_no', 'like', "%{$search}%")
+    //                 ->orWhere('incident_type', 'like', "%{$search}%")
+    //                 ->orWhere('category', 'like', "%{$search}%")
+    //                 ->orWhere('location', 'like', "%{$search}%")
+    //                 ->orWhere('reported_by', 'like', "%{$search}%")
+    //                 ->orWhere('status', 'like', "%{$search}%");
+    //         });
+    //     }
+
+    //     return response()->json(
+    //         $query->latest()->paginate(10)
+    //     );
+    // }
+
     public function index(Request $request)
     {
         $user = auth()->user();
@@ -27,13 +63,21 @@ class IncidentController extends Controller
         $query = Incident::query();
 
         // Scope by role
-        if ($user->role === "bdrrmo_admin") {
+        if ($user->role === 'bdrrmo_admin') {
+
+            // Barangay only
             $query->where('barangay', $user->barangay);
-        } else {
+        } elseif ($user->role === 'mdrrmo_admin') {
+
+            // Whole municipality
             $query->where('municipality', $user->municipality);
+        } else {
+            return response()->json([
+                'message' => 'Unauthorized role'
+            ], 403);
         }
 
-        // Search filter (shared logic)
+        // Search filter
         if ($request->filled('search')) {
             $search = $request->search;
 
