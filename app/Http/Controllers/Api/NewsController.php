@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    // GET ALL
+    // GET ALL depending on role
     public function index(Request $request)
     {
         $user = $request->user();
