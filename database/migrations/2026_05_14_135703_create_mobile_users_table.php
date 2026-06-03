@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('role')->default('resident');
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
+            $table->boolean('is_logged_in')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
