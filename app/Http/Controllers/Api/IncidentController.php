@@ -170,6 +170,7 @@ class IncidentController extends Controller
             'type' => 'required|string|max:255',
             'description' => 'required|string',
             'location' => 'nullable|string|max:255',
+            'gps_location' => 'nullable|string|max:255',
         ]);
 
 
@@ -199,6 +200,7 @@ class IncidentController extends Controller
             'contact_number' => $user->phone,
             'municipality' => $user->municipality,
             'province' => $user->province,
+            'gps_location' => $request->gps_location,
             'incident_datetime' => now(),
         ]);
 
