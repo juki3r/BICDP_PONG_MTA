@@ -228,6 +228,7 @@ Route::post('/incident/acknowledge/estancia', function (Request $request) {
         ->where('id', $request->id)
         ->where('municipality', 'Estancia')
         ->update([
+            'status' => 'received',
             'alert_mdrrmo' => 1
         ]);
 
