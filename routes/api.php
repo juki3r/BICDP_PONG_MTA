@@ -176,7 +176,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/evacuation-centers/{id}', [EvacuationCenterController::class, 'destroy']);
 
     Route::get('/evacuation-centers/barangay/{barangay}', [EvacuationCenterController::class, 'barangayCenters']);
-
+    //Post new evac by MDRRMO
+    Route::post('/evacuation-centers/mdrrmo', [EvacuationCenterController::class, 'store_mdrrmo']);
     //App Users
     Route::get('/appusers', [AppUserController::class, 'index']);
     Route::get('/appusers/{id}', [AppUserController::class, 'show']);
