@@ -243,6 +243,53 @@ class EvacuationCenterController extends Controller
         ]);
     }
 
+    // ================= UPDATE =================
+    public function update_mdrrmo(Request $request, $id)
+    {
+        $user = auth()->user();
+
+        $center = EvacuationCenter::where('municipality', $user->municipality)
+            ->findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255', //complied
+            'location' => 'required|string|max:255',
+            'barangay' => 'required|string|max:255',
+            'capacity' => 'nullable|integer|min:0',
+            'current_occupancy' => 'nullable|integer|min:0',
+
+            'contact_person' => 'nullable|string|max:255',
+            'contact_number' => 'nullable|string|max:20',
+
+            'event_type' => 'nullable|string|max:255',
+
+
+            'status' => 'nullable|in:Standby,Open,Full,Closed',
+            'facilities' => 'nullable|array',
+        ]);
+
+        $center->update($validated);
+
+        SendAdminNotificationJob::dispatch(
+            'resident',
+            [
+                'title' => "MDRRMO of {$user->municipality}",
+                'body' => "MDRRMO of {$user->municipality} update evacuation center information!",
+                'sms' => "[AlertoPH ALERT]\n MDRRMO of {$user->municipality} update evacuation center information!\n",
+                'request_id' => $user->id,
+                'url' => '/centers'
+            ],
+            $request->barangay
+        );
+
+
+        return response()->json([
+            'message' => 'Evacuation center updated successfully',
+            'data' => $center
+        ]);
+    }
+
+
     // ================= DELETE =================
     public function destroy($id)
     {
