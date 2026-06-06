@@ -212,18 +212,20 @@ Route::middleware('auth:sanctum')->get('/appuser/me', function (Request $request
 });
 
 //This for IOT system to fetch and update alert_mdrrmo at incidents table
-Route::get('/incident/alert-status', function () {
+Route::get('/incident/alert-status/estancia', function () {
     $incident = DB::table('incidents')
+        ->where('municipality', 'Estancia')
         ->where('alert_mdrrmo', 0)
         ->latest()
         ->first(['id', 'alert_mdrrmo']);
 
     return response()->json($incident);
 });
-Route::post('/incident/acknowledge', function (Request $request) {
+Route::post('/incident/acknowledge/estancia', function (Request $request) {
 
     DB::table('incidents')
         ->where('id', $request->id)
+        ->where('municipality', 'Estancia')
         ->update([
             'alert_mdrrmo' => 1
         ]);
