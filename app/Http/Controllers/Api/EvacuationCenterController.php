@@ -72,6 +72,31 @@ class EvacuationCenterController extends Controller
         ]);
     }
 
+
+    // ================= LIST BY BARANGAY =================
+    public function barangayCenters($barangay)
+    {
+        $user = auth()->user();
+
+        $centers = EvacuationCenter::where(
+            'municipality',
+            $user->municipality
+        )
+            ->where('barangay', $barangay)
+            ->orderBy('name')
+            ->get();
+
+        return response()->json([
+            'data' => $centers
+        ]);
+    }
+
+
+
+
+
+
+
     // ================= STORE =================
     public function store(Request $request)
     {
