@@ -4,237 +4,104 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 use Carbon\Carbon;
 
 class OfficialsSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('officials')->insert([
+        $faker = Faker::create();
 
-            // =========================
-            // BARANGAY CAPTAIN
-            // =========================
-            [
-                'barangay' => 'Punta',
-                'full_name' => 'Juan Dela Cruz',
-                'gender' => 'Male',
-                'position' => 'Barangay Captain',
-                'committee' => null,
-                'address' => 'Punta, Carles',
-                'contact_number' => '09120000001',
-                'email' => 'captain.punta@example.com',
-                'term_start' => Carbon::parse('2023-01-01'),
-                'term_end' => Carbon::parse('2026-12-31'),
-                'status' => 'active',
-                'photo' => null,
-                'remarks' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+        $barangays = [
+            'Bayas',
+            'Bayuyan',
+            'Botongon',
+            'Bulaqueña',
+            'Calapdan',
+            'Cano-an',
+            'Daan Banua',
+            'Daculan',
+            'Gogo',
+            'Jolog',
+            'Loguingot',
+            'Lonoy',
+            'Lumbia',
+            'Malbog',
+            'Manipulon',
+            'Pa-on',
+            'Poblacion Zone I',
+            'Poblacion Zone II',
+            'Poblacion Zone III',
+            'San Roque',
+            'Santa Ana',
+            'Tabu-an',
+            'Tacbuyan',
+            'Tanza',
+            'Villa Pani-an'
+        ];
 
-            // =========================
-            // SECRETARY
-            // =========================
-            [
-                'barangay' => 'Punta',
-                'full_name' => 'Maria Santos',
-                'gender' => 'Female',
-                'position' => 'Barangay Secretary',
-                'committee' => null,
-                'address' => 'Punta, Carles',
-                'contact_number' => '09120000002',
-                'email' => 'secretary.punta@example.com',
-                'term_start' => Carbon::parse('2023-01-01'),
-                'term_end' => Carbon::parse('2026-12-31'),
-                'status' => 'active',
-                'photo' => null,
-                'remarks' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+        $committees = [
+            'Peace and Order',
+            'Health',
+            'Education',
+            'Infrastructure',
+            'Environment',
+            'Budget & Finance',
+            'Social Services',
+            'Tourism / Sports'
+        ];
 
-            // =========================
-            // TREASURER
-            // =========================
-            [
-                'barangay' => 'Punta',
-                'full_name' => 'Pedro Reyes',
-                'gender' => 'Male',
-                'position' => 'Barangay Treasurer',
-                'committee' => null,
-                'address' => 'Punta, Carles',
-                'contact_number' => '09120000003',
-                'email' => 'treasurer.punta@example.com',
-                'term_start' => Carbon::parse('2023-01-01'),
-                'term_end' => Carbon::parse('2026-12-31'),
-                'status' => 'active',
-                'photo' => null,
-                'remarks' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+        $positions = [
+            'Barangay Captain',
+            'Barangay Secretary',
+            'Barangay Treasurer',
+            'Kagawad',
+            'Kagawad',
+            'Kagawad',
+            'Kagawad',
+            'Kagawad',
+            'Kagawad',
+            'Kagawad',
+            'Kagawad',
+            'SK Chairperson'
+        ];
 
-            // =========================
-            // 8 KAGAWADS
-            // =========================
-            [
-                'barangay' => 'Punta',
-                'full_name' => 'Ana Lopez',
-                'gender' => 'Female',
-                'position' => 'Kagawad',
-                'committee' => 'Peace and Order',
-                'address' => 'Punta, Carles',
-                'contact_number' => '09120000004',
-                'email' => 'kagawad1@example.com',
-                'term_start' => Carbon::parse('2023-01-01'),
-                'term_end' => Carbon::parse('2026-12-31'),
-                'status' => 'active',
-                'photo' => null,
-                'remarks' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'barangay' => 'Punta',
-                'full_name' => 'Jose Lim',
-                'gender' => 'Male',
-                'position' => 'Kagawad',
-                'committee' => 'Health',
-                'address' => 'Punta, Carles',
-                'contact_number' => '09120000005',
-                'email' => 'kagawad2@example.com',
-                'term_start' => Carbon::parse('2023-01-01'),
-                'term_end' => Carbon::parse('2026-12-31'),
-                'status' => 'active',
-                'photo' => null,
-                'remarks' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'barangay' => 'Punta',
-                'full_name' => 'Elena Garcia',
-                'gender' => 'Female',
-                'position' => 'Kagawad',
-                'committee' => 'Education',
-                'address' => 'Punta, Carles',
-                'contact_number' => '09120000006',
-                'email' => 'kagawad3@example.com',
-                'term_start' => Carbon::parse('2023-01-01'),
-                'term_end' => Carbon::parse('2026-12-31'),
-                'status' => 'active',
-                'photo' => null,
-                'remarks' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'barangay' => 'Punta',
-                'full_name' => 'Mark Cruz',
-                'gender' => 'Male',
-                'position' => 'Kagawad',
-                'committee' => 'Infrastructure',
-                'address' => 'Punta, Carles',
-                'contact_number' => '09120000007',
-                'email' => 'kagawad4@example.com',
-                'term_start' => Carbon::parse('2023-01-01'),
-                'term_end' => Carbon::parse('2026-12-31'),
-                'status' => 'active',
-                'photo' => null,
-                'remarks' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'barangay' => 'Punta',
-                'full_name' => 'Rosa Bautista',
-                'gender' => 'Female',
-                'position' => 'Kagawad',
-                'committee' => 'Environment',
-                'address' => 'Punta, Carles',
-                'contact_number' => '09120000008',
-                'email' => 'kagawad5@example.com',
-                'term_start' => Carbon::parse('2023-01-01'),
-                'term_end' => Carbon::parse('2026-12-31'),
-                'status' => 'active',
-                'photo' => null,
-                'remarks' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'barangay' => 'Punta',
-                'full_name' => 'Kevin Flores',
-                'gender' => 'Male',
-                'position' => 'Kagawad',
-                'committee' => 'Budget & Finance',
-                'address' => 'Punta, Carles',
-                'contact_number' => '09120000009',
-                'email' => 'kagawad6@example.com',
-                'term_start' => Carbon::parse('2023-01-01'),
-                'term_end' => Carbon::parse('2026-12-31'),
-                'status' => 'active',
-                'photo' => null,
-                'remarks' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'barangay' => 'Punta',
-                'full_name' => 'Liza Mendez',
-                'gender' => 'Female',
-                'position' => 'Kagawad',
-                'committee' => 'Social Services',
-                'address' => 'Punta, Carles',
-                'contact_number' => '09120000010',
-                'email' => 'kagawad7@example.com',
-                'term_start' => Carbon::parse('2023-01-01'),
-                'term_end' => Carbon::parse('2026-12-31'),
-                'status' => 'active',
-                'photo' => null,
-                'remarks' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'barangay' => 'Punta',
-                'full_name' => 'Robert Tan',
-                'gender' => 'Male',
-                'position' => 'Kagawad',
-                'committee' => 'Tourism / Sports',
-                'address' => 'Punta, Carles',
-                'contact_number' => '09120000011',
-                'email' => 'kagawad8@example.com',
-                'term_start' => Carbon::parse('2023-01-01'),
-                'term_end' => Carbon::parse('2026-12-31'),
-                'status' => 'active',
-                'photo' => null,
-                'remarks' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+        $officials = [];
 
-            // =========================
-            // SK CHAIRPERSON
-            // =========================
-            [
-                'barangay' => 'Punta',
-                'full_name' => 'Angela Ramos',
-                'gender' => 'Female',
-                'position' => 'SK Chairperson',
-                'committee' => 'Youth Development',
-                'address' => 'Punta, Carles',
-                'contact_number' => '09120000012',
-                'email' => 'sk.punta@example.com',
-                'term_start' => Carbon::parse('2023-01-01'),
-                'term_end' => Carbon::parse('2026-12-31'),
-                'status' => 'active',
-                'photo' => null,
-                'remarks' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        foreach ($barangays as $barangay) {
+
+            foreach ($positions as $index => $position) {
+
+                $officials[] = [
+                    'barangay' => $barangay,
+                    'full_name' => $faker->name,
+                    'gender' => $faker->randomElement(['Male', 'Female']),
+                    'position' => $position,
+
+                    'committee' => match ($position) {
+                        'SK Chairperson' => 'Youth Development',
+                        'Kagawad' => $committees[$index - 3] ?? null,
+                        default => null
+                    },
+
+                    'address' => "{$barangay}, Estancia, Iloilo",
+                    'contact_number' => '09' . $faker->numerify('#########'),
+                    'email' => $faker->unique()->safeEmail(),
+
+                    'term_start' => Carbon::parse('2023-01-01'),
+                    'term_end' => Carbon::parse('2026-12-31'),
+
+                    'status' => 'active',
+                    'photo' => null,
+                    'remarks' => null,
+
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+        }
+
+        DB::table('officials')->insert($officials);
     }
 }

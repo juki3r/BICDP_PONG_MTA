@@ -16,10 +16,38 @@ class CertificatesSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        for ($i = 0; $i < 20; $i++) {
+        $barangays = [
+            'Bayas',
+            'Bayuyan',
+            'Botongon',
+            'Bulaqueña',
+            'Calapdan',
+            'Cano-an',
+            'Daan Banua',
+            'Daculan',
+            'Gogo',
+            'Jolog',
+            'Loguingot',
+            'Lonoy',
+            'Lumbia',
+            'Malbog',
+            'Manipulon',
+            'Pa-on',
+            'Poblacion Zone I',
+            'Poblacion Zone II',
+            'Poblacion Zone III',
+            'San Roque',
+            'Santa Ana',
+            'Tabu-an',
+            'Tacbuyan',
+            'Tanza',
+            'Villa Pani-an'
+        ];
+
+        for ($i = 0; $i < 1000; $i++) {
             DB::table('certificates')->insert([
                 'user_id' => 16,
-                'barangay' => 'Punta',
+                'barangay' => $faker->randomElement($barangays),
                 'full_name' => $faker->name,
                 'age' => $faker->numberBetween(18, 70),
                 'gender' => $faker->randomElement(['Male', 'Female']),

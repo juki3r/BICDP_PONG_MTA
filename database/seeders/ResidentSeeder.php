@@ -10,68 +10,35 @@ class ResidentSeeder extends Seeder
 {
     public function run(): void
     {
-        //Carles, Iloilo has 33 barangays as of 2024
-        // $barangays = [
-        //     'Abong',
-        //     'Alipata',
-        //     'Asluman',
-        //     'Bancal',
-        //     'Barangcalan',
-        //     'Barosbos',
-        //     'Binuluangan',
-        //     'Bito-on',
-        //     'Bolo',
-        //     'Buaya',
-        //     'Buenavista',
-        //     'Cabilao Grande',
-        //     'Cabilao Pequeño',
-        //     'Cabuguana',
-        //     'Cawayan',
-        //     'Dayhagan',
-        //     'Gabi',
-        //     'Granada',
-        //     'Guinticgan',
-        //     'Isla De Cana',
-        //     'Lantangan',
-        //     'Manlot',
-        //     'Nalumsan',
-        //     'Pantalan',
-        //     'Poblacion',
-        //     'Punta',
-        //     'Punta Batuanan',
-        //     'San Fernando',
-        //     'Tabugon',
-        //     'Talingting',
-        //     'Tarong',
-        //     'Tinigban',
-        //     'Tupaz'
-        // ];
 
-        //Balasan
+
+
         $barangays = [
-            'Aranjuez',
-            'Bacolod',
-            'Balanti-an',
-            'Batuan',
-            'Cabalic',
-            'Camambugan',
-            'Dolores',
-            'Gimamanay',
-            'Ipil',
-            'Kinalkalan',
-            'Lawis',
-            'Malapoc',
-            'Mamhut Norte',
-            'Mamhut Sur',
-            'Maya',
-            'Pani-an',
-            'Poblacion Norte',
-            'Poblacion Sur',
-            'Quiasan',
-            'Salong',
-            'Salvacion',
-            'Tingui-an',
-            'Zaragosa'
+            'Bayas',
+            'Bayuyan',
+            'Botongon',
+            'Bulaqueña',
+            'Calapdan',
+            'Cano-an',
+            'Daan Banua',
+            'Daculan',
+            'Gogo',
+            'Jolog',
+            'Loguingot',
+            'Lonoy',
+            'Lumbia',
+            'Malbog',
+            'Manipulon',
+            'Pa-on',
+            'Poblacion Zone I',
+            'Poblacion Zone II',
+            'Poblacion Zone III',
+            'San Roque',
+            'Santa Ana',
+            'Tabu-an',
+            'Tacbuyan',
+            'Tanza',
+            'Villa Pani-an'
         ];
 
         $firstNames = [
@@ -123,7 +90,7 @@ class ResidentSeeder extends Seeder
             'Call Center Agent'
         ];
 
-        for ($i = 1; $i <= 23000; $i++) {
+        for ($i = 1; $i <= 25000; $i++) {
 
             $first = $firstNames[array_rand($firstNames)];
             $last = $lastNames[array_rand($lastNames)];
@@ -153,11 +120,11 @@ class ResidentSeeder extends Seeder
 
                 'region' => 'Region VI',
                 'province' => 'Iloilo',
-                'city_municipality' => 'Balasan',
+                'city_municipality' => 'Estancia',
                 'barangay' => $barangays[array_rand($barangays)],
                 'purok_zone' => 'Purok ' . rand(1, 7),
                 'street_address' => 'Sitio ' . rand(1, 20),
-                'full_address_text' => 'Balasan, Iloilo, Philippines',
+                'full_address_text' => 'Estancia, Iloilo, Philippines',
 
                 'household_head' => (bool)rand(0, 1),
                 'relationship_to_head' => 'Member',

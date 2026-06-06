@@ -13,11 +13,37 @@ class BlotterSeeder extends Seeder
         $types = ['Theft', 'Assault', 'Dispute', 'Noise Complaint', 'Vandalism'];
         $categories = ['Minor', 'Major', 'Emergency', 'Peace & Order'];
         $locations = ['Purok 1', 'Purok 2', 'Purok 3', 'Main Road', 'Sitio Centro'];
-        $barangays = ['Poblacion', 'Bancal', 'Barosbos', 'Punta', 'Nalumsan'];
-        $municipalities = ['Carles', 'Estancia', 'Balasan'];
-        $provinces = ['Cebu'];
+        $barangays = [
+            'Bayas',
+            'Bayuyan',
+            'Botongon',
+            'Bulaqueña',
+            'Calapdan',
+            'Cano-an',
+            'Daan Banua',
+            'Daculan',
+            'Gogo',
+            'Jolog',
+            'Loguingot',
+            'Lonoy',
+            'Lumbia',
+            'Malbog',
+            'Manipulon',
+            'Pa-on',
+            'Poblacion Zone I',
+            'Poblacion Zone II',
+            'Poblacion Zone III',
+            'San Roque',
+            'Santa Ana',
+            'Tabu-an',
+            'Tacbuyan',
+            'Tanza',
+            'Villa Pani-an'
+        ];
+        $municipalities = ['Estancia'];
+        $provinces = ['Iloilo'];
 
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 1000; $i++) {
 
             $year = date('Y');
 
