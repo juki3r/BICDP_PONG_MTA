@@ -212,6 +212,7 @@ Route::middleware('auth:sanctum')->get('/appuser/me', function (Request $request
 });
 
 //This for IOT system to fetch and update alert_mdrrmo at incidents table
+// ================= ALERT STATUS CHECKER FOR ESTANCIA MDRRMO =================
 Route::get('/incident/alert-status/estancia', function () {
     $incident = DB::table('incidents')
         ->where('municipality', 'Estancia')
