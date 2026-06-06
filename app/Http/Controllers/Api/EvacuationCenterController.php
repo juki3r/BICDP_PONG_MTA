@@ -30,18 +30,23 @@ class EvacuationCenterController extends Controller
                 );
             }
 
+            $barangays = $query
+                ->selectRaw("
+                        barangay,
+                        COUNT(*) as centers,
+                        SUM(current_occupancy) as occupants,
+                        SUM(capacity) as capacity
+                    ")
+                ->groupBy('barangay')
+                ->orderBy('barangay')
+                ->paginate(10);
+
             return response()->json([
                 'type' => 'mdrrmo',
-                'data' => $query
-                    ->selectRaw("
-                    barangay,
-                    COUNT(*) as centers,
-                    SUM(current_occupancy) as occupants,
-                    SUM(capacity) as capacity
-                ")
-                    ->groupBy('barangay')
-                    ->orderBy('barangay')
-                    ->get()
+                'data' => $barangays->items(),
+                'current_page' => $barangays->currentPage(),
+                'last_page' => $barangays->lastPage(),
+                'total' => $barangays->total()
             ]);
         }
 
