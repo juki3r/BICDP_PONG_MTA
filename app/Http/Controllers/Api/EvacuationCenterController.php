@@ -14,8 +14,18 @@ class EvacuationCenterController extends Controller
     {
         $user = auth()->user();
 
-        $query = EvacuationCenter::where('barangay', $user->barangay)
-            ->orderBy('created_at', 'desc');
+        $query = EvacuationCenter::query();
+
+        if ($user->role === 'bdrrmo_admin') {
+            $query->where('barangay', $user->barangay)
+                ->orderBy('created_at', 'desc');
+        } else {
+            $query->where('municipality', $user->municipality)
+                ->orderBy('created_at', 'desc');
+        }
+
+        // $query = EvacuationCenter::where('barangay', $user->barangay)
+        //     ->orderBy('created_at', 'desc');
 
         // SEARCH
         if ($request->filled('search')) {
