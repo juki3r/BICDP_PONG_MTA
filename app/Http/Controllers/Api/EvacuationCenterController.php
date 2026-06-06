@@ -65,6 +65,7 @@ class EvacuationCenterController extends Controller
         ]);
 
         $validated['barangay'] = $user->barangay;
+        $validated['municipality'] = $user->municipality;
         $validated['created_by'] = $user->id;
 
         $center = EvacuationCenter::create($validated);
