@@ -19,7 +19,7 @@ class EvacuationCenter extends Model
         'event_type',
         'status',
         'facilities',
-
+        'municipality',
         'barangay',
         'created_by',
 

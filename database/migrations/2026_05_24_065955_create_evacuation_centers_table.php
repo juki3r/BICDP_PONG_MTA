@@ -33,6 +33,7 @@ return new class extends Migration
 
             // BARANGAY SCOPE
             $table->string('barangay');
+            $table->string('municipality');
             $table->foreignId('created_by')->constrained('users');
             $table->timestamps();
         });
