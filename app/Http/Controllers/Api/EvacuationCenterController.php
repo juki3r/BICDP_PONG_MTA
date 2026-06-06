@@ -295,7 +295,7 @@ class EvacuationCenterController extends Controller
     {
         $user = auth()->user();
 
-        $center = EvacuationCenter::where('barangay', $user->barangay)
+        $center = EvacuationCenter::where('municipality', $user->municipality)
             ->findOrFail($id);
 
         $center->delete();
