@@ -17,24 +17,25 @@ class EvacuationCenterController extends Controller
         $query = EvacuationCenter::query();
 
         if ($user->role === 'bdrrmo_admin') {
-            $query->where('barangay', $user->barangay)
-                ->orderBy('created_at', 'desc');
+
+            $query->where('barangay', $user->barangay);
         } else {
+
             $query->where('municipality', $user->municipality)
-                ->orderBy('created_at', 'desc');
+                ->orderBy('barangay', 'asc')
+                ->orderBy('name', 'asc');
         }
 
-        // $query = EvacuationCenter::where('barangay', $user->barangay)
-        //     ->orderBy('created_at', 'desc');
-
-        // SEARCH
         if ($request->filled('search')) {
             $search = $request->search;
 
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('barangay', 'like', "%{$search}%")
                     ->orWhere('location', 'like', "%{$search}%")
-                    ->orWhere('contact_person', 'like', "%{$search}%");
+                    ->orWhere('contact_person', 'like', "%{$search}%")
+                    ->orWhere('status', 'like', "%{$search}%")
+                    ->orWhere('event_type', 'like', "%{$search}%");
             });
         }
 
