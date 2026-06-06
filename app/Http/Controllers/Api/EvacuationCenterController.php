@@ -172,13 +172,13 @@ class EvacuationCenterController extends Controller
         SendAdminNotificationJob::dispatch(
             'resident',
             [
-                'title' => "Barangay {$user->barangay}",
-                'body' => "Barangay {$user->barangay} created evacuation center information!",
-                'sms' => "[AlertoPH ALERT]\n Barangay {$user->barangay} posted evacuation center information!\n",
+                'title' => "MDRRMO of {$user->municipality}",
+                'body' => "MDRRMO of {$user->municipality} created evacuation center information!",
+                'sms' => "[AlertoPH ALERT]\n MDRRMO of {$user->municipality} posted evacuation center information!\n",
                 'request_id' => $user->id,
                 'url' => '/centers'
             ],
-            $user->barangay
+            $request->barangay
         );
 
         return response()->json([
