@@ -14,24 +14,49 @@ class EvacuationCenterController extends Controller
     {
         $user = auth()->user();
 
-        $query = EvacuationCenter::query();
+        // MDRRMO
+        if ($user->role === 'mdrrmo_admin') {
 
-        if ($user->role === 'bdrrmo_admin') {
+            $query = EvacuationCenter::where(
+                'municipality',
+                $user->municipality
+            );
 
-            $query->where('barangay', $user->barangay);
-        } else {
+            if ($request->filled('search')) {
+                $query->where(
+                    'barangay',
+                    'like',
+                    '%' . $request->search . '%'
+                );
+            }
 
-            $query->where('municipality', $user->municipality)
-                ->orderBy('barangay', 'asc')
-                ->orderBy('name', 'asc');
+            return response()->json([
+                'type' => 'mdrrmo',
+                'data' => $query
+                    ->selectRaw("
+                    barangay,
+                    COUNT(*) as centers,
+                    SUM(current_occupancy) as occupants,
+                    SUM(capacity) as capacity
+                ")
+                    ->groupBy('barangay')
+                    ->orderBy('barangay')
+                    ->get()
+            ]);
         }
 
+        // BDRRMO
+        $query = EvacuationCenter::where(
+            'barangay',
+            $user->barangay
+        );
+
         if ($request->filled('search')) {
+
             $search = $request->search;
 
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('barangay', 'like', "%{$search}%")
                     ->orWhere('location', 'like', "%{$search}%")
                     ->orWhere('contact_person', 'like', "%{$search}%")
                     ->orWhere('status', 'like', "%{$search}%")
@@ -40,7 +65,10 @@ class EvacuationCenterController extends Controller
         }
 
         return response()->json([
-            'data' => $query->get()
+            'type' => 'bdrrmo',
+            'data' => $query
+                ->orderBy('name')
+                ->get()
         ]);
     }
 
