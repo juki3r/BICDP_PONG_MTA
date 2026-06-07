@@ -264,11 +264,17 @@ class NewsController extends Controller
 
     public function unreadNews(Request $request)
     {
-        $userId = $request->user()->id;
+        $user = auth()->user();
+        $userId = $user->id;
 
-        $news = News::whereDoesntHave('views', function ($q) use ($userId) {
-            $q->where('user_id', $userId);
-        })
+        $news = News::where('municipality', $user->municipality)
+            ->where(function ($q) use ($user) {
+                $q->where('barangay', $user->barangay)
+                    ->orWhereNull('barangay');
+            })
+            ->whereDoesntHave('views', function ($q) use ($userId) {
+                $q->where('user_id', $userId);
+            })
             ->latest()
             ->get();
 
