@@ -116,6 +116,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index']);
+    //Dashboard
+    Route::get('/mdrrmo-dashboard', [DashboardController::class, 'mdrrmo']);
 
     //Residents
     Route::get('/residents', [ResidentController::class, 'index']);
