@@ -296,7 +296,7 @@ class DashboardController extends Controller
     //     ]);
     // }
 
-    public function mdrrmoDashboard(Request $request)
+    public function mdrrmo(Request $request)
     {
         $residentQuery = Resident::where('city_municipality', 'Estancia');
         $incidentQuery = Incident::where('municipality', 'Estancia');
