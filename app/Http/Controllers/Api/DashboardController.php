@@ -345,7 +345,9 @@ class DashboardController extends Controller
                     'description',
                     'status',
                     'incident_datetime',
-                    'created_at'
+                    'created_at',
+                    'reported_by',
+                    'contact_number'
                 ]),
 
 
