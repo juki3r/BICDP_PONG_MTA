@@ -39,7 +39,7 @@ class EvacuationCenterController extends Controller
                     ")
                 ->groupBy('barangay')
                 ->orderBy('barangay')
-                ->paginate(1);
+                ->paginate(10);
 
             return response()->json([
                 'type' => 'mdrrmo',
