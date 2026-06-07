@@ -298,99 +298,33 @@ class DashboardController extends Controller
 
     public function mdrrmoDashboard(Request $request)
     {
-        $user = auth()->user();
-
-        if (!$user || $user->role !== 'mdrrmo_admin') {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 403);
-        }
-
-        $municipality = $user->municipality;
-
-        $activeIncidents = Incident::where('municipality', $municipality)
-            ->whereNotIn('status', ['resolved', 'declined'])
-            ->count();
-
-        $responding = Incident::where('municipality', $municipality)
-            ->where('status', 'responding')
-            ->count();
-
-        $resolvedToday = Incident::where('municipality', $municipality)
-            ->where('status', 'resolved')
-            ->whereDate('updated_at', today())
-            ->count();
-
-        $critical = Incident::where('municipality', $municipality)
-            ->where('priority', 'urgent')
-            ->whereNotIn('status', ['resolved', 'declined'])
-            ->count();
-
-        $incidentTrend = Incident::where('municipality', $municipality)
-            ->whereDate('created_at', today())
-            ->selectRaw('HOUR(created_at) as hour, COUNT(*) as total')
-            ->groupBy('hour')
-            ->orderBy('hour')
-            ->get();
-
-        $liveIncidents = Incident::where('municipality', $municipality)
-            ->whereNotIn('status', ['resolved', 'declined'])
-            ->latest()
-            ->limit(20)
-            ->get([
-                'id',
-                'type',
-                'barangay',
-                'location',
-                'gps_location',
-                'description',
-                'priority',
-                'status',
-                'incident_datetime',
-                'created_at'
-            ]);
-
-        $mapIncidents = Incident::where('municipality', $municipality)
-            ->whereNotIn('status', ['resolved', 'declined'])
-            ->get()
-            ->map(function ($incident) {
-
-                $lat = null;
-                $lng = null;
-
-                if ($incident->gps_location) {
-                    $coords = explode(',', $incident->gps_location);
-
-                    if (count($coords) === 2) {
-                        $lat = (float) trim($coords[0]);
-                        $lng = (float) trim($coords[1]);
-                    }
-                }
-
-                return [
-                    'id' => $incident->id,
-                    'type' => $incident->type,
-                    'barangay' => $incident->barangay,
-                    'status' => $incident->status,
-                    'priority' => $incident->priority,
-                    'lat' => $lat,
-                    'lng' => $lng,
-                ];
-            });
+        $incidentQuery = Incident::where('municipality', 'Estancia');
 
         return response()->json([
-            'active_incidents' => $activeIncidents,
-            'responding' => $responding,
-            'resolved_today' => $resolvedToday,
-            'critical' => $critical,
 
-            'incident_trend' => $incidentTrend,
+            "incidents" => $incidentQuery->count(),
 
-            'live_incidents' => $liveIncidents,
+            "incident_trend" => $incidentQuery
+                ->selectRaw("DATE(created_at) as date, COUNT(*) as total")
+                ->groupBy('date')
+                ->orderBy('date')
+                ->get(),
 
-            'map_incidents' => $mapIncidents,
+            "live_incidents" => Incident::where('municipality', 'Estancia')
+                ->whereNotIn('status', ['resolved', 'declined'])
+                ->orderByDesc('created_at')
+                ->limit(10)
+                ->get([
+                    'id',
+                    'type',
+                    'location',
+                    'gps_location',
+                    'description',
+                    'status',
+                    'incident_datetime',
+                    'created_at'
+                ]),
 
-            'last_updated' => now()->toDateTimeString(),
         ]);
     }
 }
