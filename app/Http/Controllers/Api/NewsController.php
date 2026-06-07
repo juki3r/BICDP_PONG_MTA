@@ -41,10 +41,20 @@ class NewsController extends Controller
     // }
     public function index(Request $request)
     {
+        $user = auth()->user();
         $search = $request->input('search');
 
-        $query = News::where('user_id', $request->user()->id)
-            ->latest();
+        $query = News::query();
+
+        // BDRRMO Admin: only his own posts
+        if ($user->role === 'bdrrmo_admin') {
+            $query->where('user_id', $user->id);
+        }
+
+        // MDRRMO Admin: all news within his municipality
+        if ($user->role === 'mdrrmo_admin') {
+            $query->where('municipality', $user->municipality);
+        }
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -55,7 +65,7 @@ class NewsController extends Controller
         }
 
         return response()->json(
-            $query->paginate(10)
+            $query->latest()->paginate(10)
         );
     }
 
