@@ -298,10 +298,21 @@ class DashboardController extends Controller
 
     public function mdrrmoDashboard(Request $request)
     {
+        $residentQuery = Resident::where('city_municipality', 'Estancia');
         $incidentQuery = Incident::where('municipality', 'Estancia');
+
+        $appUserQuery = MobileUser::where('municipality', 'Estancia');
+
 
         return response()->json([
 
+            "residents" => $residentQuery->count(),
+            "voters" => (clone $residentQuery)->where('is_voter', 1)->count(),
+            "male" => (clone $residentQuery)->where('gender', 'Male')->count(),
+            "female" => (clone $residentQuery)->where('gender', 'Female')->count(),
+
+
+            "app_users" => $appUserQuery->count(),
             "incidents" => $incidentQuery->count(),
 
             "incident_trend" => $incidentQuery
@@ -324,6 +335,37 @@ class DashboardController extends Controller
                     'incident_datetime',
                     'created_at'
                 ]),
+
+
+            "gender_distribution" => [
+                [
+                    "name" => "Male",
+                    "value" => (clone $residentQuery)->where('gender', 'Male')->count()
+                ],
+                [
+                    "name" => "Female",
+                    "value" => (clone $residentQuery)->where('gender', 'Female')->count()
+                ],
+            ],
+
+            "age_distribution" => [
+                [
+                    "range" => "0-17",
+                    "count" => (clone $residentQuery)->whereBetween('age', [0, 17])->count()
+                ],
+                [
+                    "range" => "18-30",
+                    "count" => (clone $residentQuery)->whereBetween('age', [18, 30])->count()
+                ],
+                [
+                    "range" => "31-59",
+                    "count" => (clone $residentQuery)->whereBetween('age', [31, 59])->count()
+                ],
+                [
+                    "range" => "60+",
+                    "count" => (clone $residentQuery)->where('age', '>=', 60)->count()
+                ],
+            ],
 
         ]);
     }
