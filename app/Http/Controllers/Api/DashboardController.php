@@ -298,11 +298,15 @@ class DashboardController extends Controller
 
     public function mdrrmo(Request $request)
     {
-        $residentQuery = Resident::where('city_municipality', 'Estancia');
-        $incidentQuery = Incident::where('municipality', 'Estancia');
+        $municipality = 'Estancia'; // hardcoded for now, will use auth()->user()->municipality when auth is implemented
 
-        $appUserQuery = MobileUser::where('municipality', 'Estancia');
-
+        $residentQuery = Resident::where('city_municipality', $municipality);
+        $incidentQuery = Incident::where('municipality', $municipality);
+        // $blotterQuery = Blotter::where('municipality', $municipality);
+        // $concernQuery = Concern::where('municipality', $municipality);
+        // $certificateQuery = Certificate::where('municipality', $municipality);
+        $appUserQuery = MobileUser::where('municipality', $municipality);
+        // $ordinanceQuery = Ordinance::where('municipality', $municipality);
 
         return response()->json([
 
@@ -311,8 +315,12 @@ class DashboardController extends Controller
             "male" => (clone $residentQuery)->where('gender', 'Male')->count(),
             "female" => (clone $residentQuery)->where('gender', 'Female')->count(),
 
+            // "blotters" => $blotterQuery->count(),
+            // "concerns" => $concernQuery->count(),
+            // "certificates" => $certificateQuery->count(),
 
             "app_users" => $appUserQuery->count(),
+            // "ordinances" => $ordinanceQuery->count(),
             "incidents" => $incidentQuery->count(),
 
             "incident_trend" => $incidentQuery
@@ -321,7 +329,7 @@ class DashboardController extends Controller
                 ->orderBy('date')
                 ->get(),
 
-            "live_incidents" => Incident::where('municipality', 'Estancia')
+            "live_incidents" => Incident::where('municipality', $municipality)
                 ->whereNotIn('status', ['resolved', 'declined'])
                 ->orderByDesc('created_at')
                 ->limit(10)
