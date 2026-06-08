@@ -240,6 +240,7 @@ Route::post('/incident/acknowledge/estancia', function (Request $request) {
 
 //Dashboard
 Route::get('/estancia-dashboard', [DashboardController::class, 'mdrrmo']);
+Route::get('/carles-dashboard', [DashboardController::class, 'mdrrmo_carles']);
 
 
 

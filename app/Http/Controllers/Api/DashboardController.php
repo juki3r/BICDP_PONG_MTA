@@ -383,4 +383,90 @@ class DashboardController extends Controller
 
         ]);
     }
+
+
+
+    public function mdrrmo_carles(Request $request)
+    {
+        $municipality = 'Carles'; // hardcoded for now, will use auth()->user()->municipality when auth is implemented
+
+        $residentQuery = Resident::where('city_municipality', $municipality);
+        $incidentQuery = Incident::where('municipality', $municipality);
+        // $blotterQuery = Blotter::where('municipality', $municipality);
+        // $concernQuery = Concern::where('municipality', $municipality);
+        // $certificateQuery = Certificate::where('municipality', $municipality);
+        $appUserQuery = MobileUser::where('municipality', $municipality);
+        // $ordinanceQuery = Ordinance::where('municipality', $municipality);
+
+        return response()->json([
+
+            "residents" => $residentQuery->count(),
+            "voters" => (clone $residentQuery)->where('is_voter', 1)->count(),
+            "male" => (clone $residentQuery)->where('gender', 'Male')->count(),
+            "female" => (clone $residentQuery)->where('gender', 'Female')->count(),
+
+            // "blotters" => $blotterQuery->count(),
+            // "concerns" => $concernQuery->count(),
+            // "certificates" => $certificateQuery->count(),
+
+            "app_users" => $appUserQuery->count(),
+            // "ordinances" => $ordinanceQuery->count(),
+            "incidents" => $incidentQuery->count(),
+
+            "incident_trend" => $incidentQuery
+                ->selectRaw("DATE(created_at) as date, COUNT(*) as total")
+                ->groupBy('date')
+                ->orderBy('date')
+                ->get(),
+
+            "live_incidents" => Incident::where('municipality', $municipality)
+                ->whereNotIn('status', ['resolved', 'declined'])
+                ->orderByDesc('created_at')
+                ->limit(10)
+                ->get([
+                    'id',
+                    'type',
+                    'location',
+                    'gps_location',
+                    'description',
+                    'status',
+                    'incident_datetime',
+                    'created_at',
+                    'reported_by',
+                    'contact_number'
+                ]),
+
+
+            "gender_distribution" => [
+                [
+                    "name" => "Male",
+                    "value" => (clone $residentQuery)->where('gender', 'Male')->count()
+                ],
+                [
+                    "name" => "Female",
+                    "value" => (clone $residentQuery)->where('gender', 'Female')->count()
+                ],
+            ],
+
+            "age_distribution" => [
+                [
+                    "range" => "0-17",
+                    "count" => (clone $residentQuery)->whereBetween('age', [0, 17])->count()
+                ],
+                [
+                    "range" => "18-30",
+                    "count" => (clone $residentQuery)->whereBetween('age', [18, 30])->count()
+                ],
+                [
+                    "range" => "31-59",
+                    "count" => (clone $residentQuery)->whereBetween('age', [31, 59])->count()
+                ],
+                [
+                    "range" => "60+",
+                    "count" => (clone $residentQuery)->where('age', '>=', 60)->count()
+                ],
+            ],
+
+        ]);
+    }
 }
