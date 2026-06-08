@@ -238,6 +238,33 @@ Route::post('/incident/acknowledge/estancia', function (Request $request) {
     ]);
 });
 
+
+//This for IOT system to fetch and update alert_mdrrmo at incidents table
+// ================= ALERT STATUS CHECKER FOR CARLES MDRRMO =================
+Route::get('/incident/alert-status/carles', function () {
+    $incident = DB::table('incidents')
+        ->where('municipality', 'Carles')
+        ->where('alert_mdrrmo', 0)
+        ->latest()
+        ->first(['id', 'alert_mdrrmo']);
+
+    return response()->json($incident);
+});
+Route::post('/incident/acknowledge/carles', function (Request $request) {
+
+    DB::table('incidents')
+        ->where('id', $request->id)
+        ->where('municipality', 'Carles')
+        ->update([
+            'status' => 'received',
+            'alert_mdrrmo' => 1
+        ]);
+
+    return response()->json([
+        'status' => 'ok'
+    ]);
+});
+
 //Dashboard
 Route::get('/estancia-dashboard', [DashboardController::class, 'mdrrmo']);
 Route::get('/carles-dashboard', [DashboardController::class, 'mdrrmo_carles']);
